@@ -1,0 +1,11 @@
+.index_geuss {
+  min-height: 84vh;
+}
+
+.k {
+  background-image: url("../imgs/carousel1.jpg");
+  height: 50vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
