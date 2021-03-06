@@ -6,18 +6,14 @@ import {
   MDBCardBody,
   MDBIcon,
   MDBBtn,
-  MDBInput,
   MDBContainer,
 } from "mdbreact";
-
+import "./contact.css";
 const ContactPage = () => {
   return (
-    <MDBContainer className="mt-2">
-      <div>
-        {" "}
-        <p className="text-uppercase text-white text-center bg-warning p-3 ">
-          Contacter nous
-        </p>
+    <MDBContainer className="mt-0 contactsection">
+      <div className="text-center text-white mb-2 bg-warning text-uppercase p-4 border-0">
+        <h3> Contacter nous</h3>
       </div>
 
       <MDBRow>
@@ -26,32 +22,38 @@ const ContactPage = () => {
             <MDBCardBody>
               <div>
                 <div className="form-group">
+                  {" "}
+                  <label htmlFor="example2">Nom:</label>
                   <input
                     type="text"
                     id="example2"
-                    placeholder="Email"
+                    placeholder="Nom"
                     className="form-control form-control-md"
                   />
                   <br></br>
+                  <label htmlFor="example2">E-mail:</label>
                   <input
                     type="text"
-                    placeholder="Password"
+                    placeholder="E-mail"
                     id="example2"
                     className="form-control form-control-md"
                   />{" "}
                   <br></br>
+                  <label htmlFor="example2">Sujet:</label>
                   <input
                     type="text"
-                    placeholder="Password"
+                    placeholder="Sujet"
                     id="example2"
                     className="form-control form-control-md"
                   />
                 </div>{" "}
                 <br></br>
+                <label htmlFor="example2">Message:</label>
                 <textarea
                   className="form-control"
                   id="exampleFormControlTextarea1"
                   rows="5"
+                  placeholder="Votre message"
                 />
               </div>{" "}
               <br></br>

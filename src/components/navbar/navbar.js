@@ -7,14 +7,7 @@ import {
   MDBNavbarToggler,
   MDBCollapse,
   MDBBtn,
-  MDBIcon,
   MDBNavbarBrand,
-  MDBDropdown,
-  MDBDropdownToggle,
-  MDBDropdownItem,
-  MDBDropdownMenu,
-  MDBCol,
-  MDBRow,
   MDBAnimation,
 } from "mdbreact";
 import { Link } from "react-router-dom";
@@ -35,19 +28,15 @@ class NavbarPage extends Component {
   render() {
     return (
       <div>
-        <MDBNavbar
-          color="unique-color-dark"
-          expand="md"
-          className="z-depth-0 fixed-top "
-        >
+        <MDBNavbar color="unique-color-dark" expand="md" className="z-depth-0 ">
           <MDBNavbarBrand>
             <Link to="/">
               <MDBAnimation type="bounce">
                 <h3>
-                  <span className="bg-warning text-dark  font-weight-bold rounded-left">
+                  <span className="bg-warning text-dark  font-weight-bold rounded">
                     WE
                   </span>
-                  <span className="bg-dark text-warning ">
+                  <span className="text-white">
                     <strong>Music</strong>
                   </span>
                 </h3>
@@ -65,112 +54,70 @@ class NavbarPage extends Component {
             navbar
           >
             <MDBNavbarNav left>
-              {" "}
               <MDBNavItem>
-                <MDBDropdown>
-                  <MDBDropdownToggle
-                    caret
-                    color=""
-                    className="text-warning border border-warning  rounded-bottom "
-                  >
-                    Genre
-                  </MDBDropdownToggle>
-                  <MDBDropdownMenu basic>
-                    <MDBDropdownItem header>
-                      Selectionner genre{" "}
-                    </MDBDropdownItem>
-                    <MDBDropdownItem>HipHop</MDBDropdownItem>
-                    <MDBDropdownItem>Soul</MDBDropdownItem>
-                    <MDBDropdownItem>Funk</MDBDropdownItem>
-                    <MDBDropdownItem>Jass</MDBDropdownItem>
-                    <MDBDropdownItem>Classique</MDBDropdownItem>
-                    <MDBDropdownItem>Rock</MDBDropdownItem>
-                  </MDBDropdownMenu>
-                </MDBDropdown>
-              </MDBNavItem>{" "}
-              <MDBNavItem>
-                <MDBDropdown>
-                  <MDBDropdownToggle
-                    caret
-                    color=""
-                    className="text-warning border border-warning  rounded-bottom "
-                  >
-                    Artiste
-                  </MDBDropdownToggle>
-                  <MDBDropdownMenu basic>
-                    <MDBDropdownItem header>
-                      Selectionner un artiste{" "}
-                    </MDBDropdownItem>
-                    <MDBDropdownItem>Diam's</MDBDropdownItem>
-                    <MDBDropdownItem>Moby</MDBDropdownItem>
-                    <MDBDropdownItem>Ravin</MDBDropdownItem>
-                    <MDBDropdownItem>Billy Talent</MDBDropdownItem>
-                    <MDBDropdownItem>Spin Doctors</MDBDropdownItem>
-                    <MDBDropdownItem>Hanson</MDBDropdownItem>
-                  </MDBDropdownMenu>
-                </MDBDropdown>
-              </MDBNavItem>{" "}
-              <MDBNavItem>
-                <MDBNavLink
-                  to="#!"
-                  className=" text-center text-warning border border-warning mt-2  rounded-bottom"
-                >
-                  Nos produits
+                <MDBNavLink to="/" className="text-center   text-white  ">
+                  <big> Accueil</big>
                 </MDBNavLink>
               </MDBNavItem>
               <MDBNavItem>
-                <MDBNavLink
-                  to="#!"
-                  className="text-center  border text-warning border-warning mt-2 rounded-bottom "
-                >
-                  Nos offres
+                <MDBNavLink to="#!" className="text-center    text-white ">
+                  <big> Nos évenements</big>
                 </MDBNavLink>
+              </MDBNavItem>
+              <MDBNavItem>
+                <MDBNavLink to="#!" className="text-center    text-white  ">
+                  <big> Nos offres</big>
+                </MDBNavLink>
+              </MDBNavItem>
+              <MDBNavItem>
+                {" "}
+                <div className="input-group p-2 mr-5">
+                  <input
+                    type="text"
+                    className="form-control rounded-left"
+                    placeholder="rechercher un artiste, un album, un titre"
+                    aria-label="Username"
+                    aria-describedby="basic-addon"
+                  />
+                  <div className="input-group-prepend ">
+                    <span
+                      className="input-group-text mr-0 bg-warning border-0 rounded-right"
+                      id="basic-addon"
+                    >
+                      <i className="fa fa-search prefix"></i>
+                    </span>
+                  </div>
+                </div>
               </MDBNavItem>
             </MDBNavbarNav>
             <MDBNavbarNav right>
-              <MDBRow>
-                <MDBCol>
-                  {" "}
-                  <MDBNavItem>
-                    <MDBNavLink
-                      className="text-center  block-example border border-warning  rounded  mt-2 "
-                      to="#!"
-                    >
-                      {" "}
-                      <Link to="/contact">
-                        <MDBIcon
-                          icon="envelope"
-                          className="text-warning  text-center ml-2 mr-2"
-                        />{" "}
-                      </Link>
-                    </MDBNavLink>
-                  </MDBNavItem>
-                </MDBCol>
-                <MDBCol>
-                  {" "}
-                  <MDBNavItem>
-                    <MDBNavLink
-                      className=" border border-warning  rounded  text-center mt-2 "
-                      to="#!"
-                    >
-                      <MDBIcon
-                        icon="shopping-cart"
-                        className="text-warning ml-2 mr-2"
-                      />
-                    </MDBNavLink>
-                  </MDBNavItem>
-                </MDBCol>
-                <MDBCol>
-                  {" "}
-                  <MDBNavItem>
-                    <Link to="/login">
-                      <MDBBtn outline color="warning ">
-                        Connexion
-                      </MDBBtn>
-                    </Link>
-                  </MDBNavItem>
-                </MDBCol>
-              </MDBRow>
+              <MDBNavItem>
+                <Link to="/login">
+                  <MDBBtn
+                    color=""
+                    className="z-depth-0 border  p-2  text-white rounded "
+                  >
+                    Connexion
+                  </MDBBtn>
+                </Link>
+              </MDBNavItem>
+              <MDBNavItem>
+                <Link to="/registre">
+                  <MDBBtn
+                    color="warning"
+                    className="z-depth-0 border border-warning  p-2  rounded "
+                  >
+                    Créer un compte
+                  </MDBBtn>
+                </Link>
+              </MDBNavItem>{" "}
+              <MDBNavItem>
+                <Link to="/contact">
+                  <p className="mt-2 p-1 text-white font-weight-bolder">
+                    Contacter nous
+                  </p>
+                </Link>{" "}
+              </MDBNavItem>
             </MDBNavbarNav>
           </MDBCollapse>
         </MDBNavbar>{" "}
@@ -181,3 +128,15 @@ class NavbarPage extends Component {
 }
 
 export default NavbarPage;
+
+/*
+
+      <MDBFormInline waves>
+                  <div className="md-form my-0 bg-white rounded ">
+                    <input className="form-control mr-sm-5 "  type="text" placeholder="Search" aria-label="Search" />
+                  </div>
+                </MDBFormInline>
+
+
+
+                */

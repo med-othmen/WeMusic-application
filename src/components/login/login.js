@@ -39,9 +39,7 @@ const Login = () => {
             Se connecter
           </MDBBtn>
           <br></br>
-          <a>
-            <span className=""> Mot de passe oublié?</span>
-          </a>
+          <span className=""> Mot de passe oublié?</span>
         </MDBCol>
         <MDBCol> </MDBCol>
       </MDBRow>

@@ -67,9 +67,11 @@ const FormPage = () => {
                 <MDBBtn flat color="dark" className="z-depth-0 ">
                   S'enregistrer
                 </MDBBtn>
-                <MDBBtn flat color="amber" className="z-depth-0 ">
-                  Se connecter
-                </MDBBtn>{" "}
+                <Link to="/login">
+                  <MDBBtn flat color="amber" className="z-depth-0 ">
+                    Se connecter
+                  </MDBBtn>{" "}
+                </Link>
               </MDBBtnGroup>
             </div>
           </form>
