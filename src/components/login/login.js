@@ -1,85 +1,103 @@
-import React from "react";
-import { MDBContainer, MDBRow, MDBBtn, MDBCol, MDBIcon } from "mdbreact";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBBtn,
+  MDBCol,
+  MDBIcon,
+  MDBAlert,
+} from "mdbreact";
 import "./login.css";
 import { Link } from "react-router-dom";
-const Login = () => {
-  return (
-    <MDBContainer className=" p-3 loginsurface ">
-      <MDBRow>
-        <MDBCol></MDBCol>
-        <MDBCol md="4" sm="12" className="">
-          {" "}
-          <p className="text-uppercase text-center bg-warning p-3 text-white">
-            Identification
-          </p>
-          <div>
-            <div className="form-group">
-              <label htmlFor="example2">Login:</label>
-              <input
-                type="text"
-                id="example2"
-                placeholder="Email"
-                className="form-control form-control-md"
-              />
-              <br></br>
-              <label htmlFor="example2">Mot de Passe:</label>
-              <input
-                type="text"
-                placeholder="Password"
-                id="example2"
-                className="form-control form-control-md"
-              />
-            </div>
-          </div>
-          <MDBBtn
-            flat
-            color="dark"
-            className="z-depth-0 btn-flat w-responsive  w-100"
-          >
-            Se connecter
-          </MDBBtn>
-          <br></br>
-          <span className=""> Mot de passe oublié?</span>
-        </MDBCol>
-        <MDBCol> </MDBCol>
-      </MDBRow>
-      <MDBRow>
-        <MDBCol></MDBCol>
-        <MDBCol>
-          <hr></hr>
-        </MDBCol>
-        <MDBCol></MDBCol>
-      </MDBRow>
-      <MDBRow>
-        <MDBCol></MDBCol>
-        <MDBCol md="4" sm="12">
-          <p className="text-uppercase  text-center mt-3 bg-warning p-3 text-white">
-            Pas encore de compte ?
-          </p>
-          <div>
-            <MDBIcon icon="angle-double-down" size="3x" className="pl-5 pr-5" />
-            <MDBIcon icon="angle-double-down" size="3x" className="pr-5" />{" "}
-            <MDBIcon icon="angle-double-down" size="3x" className="pr-5" />{" "}
-            <MDBIcon icon="angle-double-down" size="3x" className="pr-5" />{" "}
-          </div>
-          <div className="text-center">
-            <Link to="/registre">
-              <MDBBtn
-                color="dark"
-                className="warning-text border border-amber z-depth-0 w-responsive  w-100"
-              >
-                Créez un compte &nbsp;
-                <span className="bg-warning text-dark">W</span>
-                <span className="bg-dark text-warning">EMusic</span>&nbsp;
-                GRATUITEMENT <i class="fa fa-bolt"></i>
-              </MDBBtn>
-            </Link>
-          </div>
-        </MDBCol>
-        <MDBCol></MDBCol>
-      </MDBRow>
-    </MDBContainer>
-  );
-};
+import { userActions } from "../actions/useractions";
+import { alertActions } from "../actions/alert.actions";
 
-export default Login;
+export class login extends Component {
+  onHandleLogin = (event) => {
+    event.preventDefault();
+
+    let email = event.target.email.value;
+    let password = event.target.password.value;
+    this.props.singin(email, password);
+  };
+  render() {
+    return (
+      <MDBContainer>
+        <MDBRow className=" loginsurface mt-5  ">
+        <MDBCol md="4"></MDBCol>
+          <MDBCol className="bd_lodgin">
+            {" "}
+            <MDBAlert color="dark" className="mt-5">
+              <form onSubmit={this.onHandleLogin}>
+                {this.props.alert.message && (
+                  <MDBAlert
+                    dismiss
+                    className="mt-5 mb-2"
+                    color={this.props.alert.type}
+                  >
+                    {this.props.alert.message}
+                  </MDBAlert>
+                )}
+                <div>
+                  <div className="form-group mt-4">
+                    <input
+                      type="text"
+                      required
+                      name="email"
+                      placeholder="Email"
+                      className="form-control form-control-md"
+                    />
+                    <br></br>
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Mot de passe"
+                      required
+                      className="form-control form-control-md"
+                    />
+                  </div>
+                </div>
+                <MDBBtn
+                  flat
+                  type="submit"
+                  color="dark"
+                  className="z-depth-0 w-100 w-responsive  mt-3 rounded "
+                >
+                  Se connecter
+                </MDBBtn>
+                <br />
+                <div className="text-info w-100 mt-3 text-center">
+                  <span> Mot de passe oublié?</span>
+                </div>
+                <hr></hr>
+                <Link to="/registre">
+                  <MDBBtn
+                    outline
+                    color=""
+                    className="z-depth-0 w-100 w-responsive text-dark mt-3 border-0 "
+                  >
+                    Pas encore de compte ?
+                  </MDBBtn>
+                </Link>
+              </form>
+            </MDBAlert>
+          </MDBCol>
+          <MDBCol md="4"></MDBCol>
+        </MDBRow>
+      </MDBContainer>
+    );
+  }
+}
+
+const mapStateToProps = (state) => ({
+  alert: state.alert,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  singin: (email, password) => dispatch(userActions.login(email, password)),
+  clearAlerts: () => dispatch(alertActions.clear()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(login);
+//

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   MDBNavbar,
   MDBNavbarNav,
@@ -6,16 +7,23 @@ import {
   MDBNavLink,
   MDBNavbarToggler,
   MDBCollapse,
-  MDBBtn,
   MDBNavbarBrand,
   MDBAnimation,
+  MDBIcon,
+  MDBBtn,
+  MDBBadge,
+  MDBDropdown,
+  MDBDropdownToggle,
+  MDBDropdownMenu,
+  MDBDropdownItem,
 } from "mdbreact";
 import { Link } from "react-router-dom";
 import Topnavbar from "./topnavbar";
 import "./navbar.css";
 import Collaps from "../../imgs/radio-waves.svg";
-
-class NavbarPage extends Component {
+import { userActions } from "../actions/useractions";
+import "./navbar.css";
+export class NavbarPage extends Component {
   state = {
     collapseID: "",
   };
@@ -27,26 +35,27 @@ class NavbarPage extends Component {
 
   render() {
     return (
-      <div>
-        <MDBNavbar color="unique-color-dark" expand="md" className="z-depth-0 ">
+      <div className=" bg-white sticky-top  ">
+        <Topnavbar />
+        <MDBNavbar color="" expand="sm" className="z-depth-0 m-0 p-2">
           <MDBNavbarBrand>
             <Link to="/">
               <MDBAnimation type="bounce">
-                <h3>
-                  <span className="bg-warning text-dark  font-weight-bold rounded">
+                <h1>
+                  <span className="bg-success text-white p-2 font-weight-bold  border-0">
                     WE
                   </span>
-                  <span className="text-white">
-                    <strong>Music</strong>
+                  <span className="white-text bg-dark border-0 pr-3 pl-2 pb-1 p-0  ">
+                    music
                   </span>
-                </h3>
+                </h1>
               </MDBAnimation>
             </Link>
           </MDBNavbarBrand>
           <MDBNavbarToggler
             image={Collaps}
             onClick={this.toggleCollapse("navbarCollapse3")}
-            className="bg-warning"
+            className="bg-success text-white"
           />
           <MDBCollapse
             id="navbarCollapse3"
@@ -55,88 +64,156 @@ class NavbarPage extends Component {
           >
             <MDBNavbarNav left>
               <MDBNavItem>
-                <MDBNavLink to="/" className="text-center   text-white  ">
-                  <big> Accueil</big>
+                <MDBNavLink to="/" className="  text-dark  mt-2">
+                  <p className="h5-responsive ">Accueil</p>
                 </MDBNavLink>
               </MDBNavItem>
               <MDBNavItem>
-                <MDBNavLink to="#!" className="text-center    text-white ">
-                  <big> Nos évenements</big>
+                <MDBNavLink to="/produits" className="   text-dark mt-2 ">
+                  <p className="h5-responsive  ">Produits</p>
                 </MDBNavLink>
               </MDBNavItem>
               <MDBNavItem>
-                <MDBNavLink to="#!" className="text-center    text-white  ">
-                  <big> Nos offres</big>
+                <MDBNavLink to="articles" className="  text-dark mt-2">
+                  <p className="h5-responsive  ">Actualité</p>
                 </MDBNavLink>
               </MDBNavItem>
               <MDBNavItem>
-                {" "}
-                <div className="input-group p-2 mr-5">
-                  <input
-                    type="text"
-                    className="form-control rounded-left"
-                    placeholder="rechercher un artiste, un album, un titre"
-                    aria-label="Username"
-                    aria-describedby="basic-addon"
-                  />
-                  <div className="input-group-prepend ">
-                    <span
-                      className="input-group-text mr-0 bg-warning border-0 rounded-right"
-                      id="basic-addon"
+                <MDBNavLink to="/contact" className="  text-dark  mt-2">
+                  <p className="h5-responsive  ">Contacter nous</p>
+                </MDBNavLink>
+              </MDBNavItem>
+            </MDBNavbarNav>
+            {this.props.user ? (
+              <MDBNavbarNav right>
+                <MDBNavItem>
+                  <Link to="/mycart">
+                    <MDBBtn
+                      color=""
+                      className="z-depth-0  p-4  mt-2 mr-4 rounded "
                     >
-                      <i className="fa fa-search prefix"></i>
-                    </span>
-                  </div>
-                </div>
-              </MDBNavItem>
-            </MDBNavbarNav>
-            <MDBNavbarNav right>
-              <MDBNavItem>
-                <Link to="/login">
-                  <MDBBtn
-                    color=""
-                    className="z-depth-0 border  p-2  text-white rounded "
+                      <h5>
+                        <MDBIcon
+                          size="2x"
+                          icon="shopping-bag "
+                          className="text-dark "
+                        />{" "}
+                        <MDBBadge color="success">
+                          {this.props.cart.length}
+                        </MDBBadge>
+                      </h5>
+                    </MDBBtn>
+                  </Link>
+                </MDBNavItem>
+                <MDBNavItem>
+                  <MDBDropdown
+                    dropleft
+                    size="lg"
+                    className="z-depth-0  mt-0 mr-4  "
                   >
-                    Connexion
-                  </MDBBtn>
-                </Link>
-              </MDBNavItem>
-              <MDBNavItem>
-                <Link to="/registre">
-                  <MDBBtn
-                    color="warning"
-                    className="z-depth-0 border border-warning  p-2  rounded "
+                    <MDBDropdownToggle nav>
+                      <img
+                        src="https://mdbootstrap.com/img/Photos/Avatars/img%20(20).jpg"
+                        width="45px"
+                        alt=""
+                        className="rounded-circle mt-4 img-fluid  "
+                      />
+                    </MDBDropdownToggle>
+                    <MDBDropdownMenu className="mt-5 ">
+                      <Link to="/profil">
+                        <MDBDropdownItem href="#!">
+                          {" "}
+                          <MDBBtn outline color="" className="z-depth-0 p-0">
+                            Mon profil
+                          </MDBBtn>
+                        </MDBDropdownItem>{" "}
+                      </Link>
+                      <MDBDropdownItem>
+                        <MDBBtn
+                          outline
+                          color=""
+                          className="z-depth-0 p-0"
+                          onClick={() => this.props.logout()}
+                        >
+                          Déconexion
+                        </MDBBtn>
+                      </MDBDropdownItem>
+                    </MDBDropdownMenu>
+                  </MDBDropdown>
+                </MDBNavItem>
+              </MDBNavbarNav>
+            ) : (
+              <MDBNavbarNav right>
+                <MDBNavItem>
+                  <Link to="/mycart">
+                    <MDBBtn
+                      color=""
+                      className="z-depth-0  p-4  mt-2 mr-4 rounded "
+                    >
+                      <h5>
+                        <MDBIcon
+                          size="2x"
+                          icon="shopping-bag "
+                          className="text-dark "
+                        />{" "}
+                        <MDBBadge color="success">
+                          {this.props.cart.length}
+                        </MDBBadge>
+                      </h5>
+                    </MDBBtn>
+                  </Link>
+                </MDBNavItem>
+
+                <MDBNavItem>
+                  <MDBDropdown
+                    dropleft
+                    size="sm"
+                    className="z-depth-0  p-4  mt-0 mt-1 "
                   >
-                    Créer un compte
-                  </MDBBtn>
-                </Link>
-              </MDBNavItem>{" "}
-              <MDBNavItem>
-                <Link to="/contact">
-                  <p className="mt-2 p-1 text-white font-weight-bolder">
-                    Contacter nous
-                  </p>
-                </Link>{" "}
-              </MDBNavItem>
-            </MDBNavbarNav>
+                    <MDBDropdownToggle nav>
+                      <h6>
+                        <MDBIcon size="2x" icon="user" className="text-dark " />{" "}
+                      </h6>
+                    </MDBDropdownToggle>
+                    <MDBDropdownMenu>
+                      <Link to="/login">
+                        <MDBDropdownItem>Connexion</MDBDropdownItem>{" "}
+                      </Link>
+                      <Link to="/registre">
+                        <MDBDropdownItem>Inscription</MDBDropdownItem>
+                      </Link>
+                    </MDBDropdownMenu>
+                  </MDBDropdown>
+                </MDBNavItem>
+              </MDBNavbarNav>
+            )}
           </MDBCollapse>
-        </MDBNavbar>{" "}
-        <Topnavbar />
+        </MDBNavbar>
       </div>
     );
   }
 }
 
-export default NavbarPage;
+const mapStateToProps = (state) => ({
+  user: state.authentication.user,
+  cart: state.cart,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  logout: () => dispatch(userActions.logout()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavbarPage);
 
 /*
-
-      <MDBFormInline waves>
-                  <div className="md-form my-0 bg-white rounded ">
-                    <input className="form-control mr-sm-5 "  type="text" placeholder="Search" aria-label="Search" />
-                  </div>
-                </MDBFormInline>
-
-
-
-                */
+  <MDBNavItem>
+                  <Link to="/profil">
+                    <img
+                      src="https://mdbootstrap.com/img/Photos/Avatars/img%20(20).jpg"
+                      width="45px"
+                      alt=""
+                      className="rounded-circle   mt-2 img-fluid  "
+                    />
+                  </Link>
+                </MDBNavItem>{" "}
+              */

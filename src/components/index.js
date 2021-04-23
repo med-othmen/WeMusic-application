@@ -6,6 +6,7 @@ import "./index.css";
 
 // import components
 import Home from "./home/home";
+
 export class index extends Component {
   render() {
     return (

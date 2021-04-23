@@ -1,77 +1,73 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { MDBContainer, MDBCardHeader, MDBIcon, MDBMedia } from "mdbreact";
+import { MDBBtn, MDBCardHeader, MDBIcon, MDBMedia } from "mdbreact";
 export class blogCard extends Component {
   render() {
     return (
-      <MDBContainer>
-        <MDBCardHeader className="border-0  font-weight-bold d-flex justify-content-between ">
+      <div>
+        <MDBCardHeader className="border bg-light  font-weight-bold d-flex   ">
           <p className="mr-4 mb-0">
             <p>
               by
-              <a href="#!" className="text-warning">
-                <strong>Carine Fox</strong>
+              <a href="#!" className="text-success">
+                <strong>{this.props.el.editeur}</strong>
               </a>
-              , 19/08/2018
+              
             </p>
+            <p>{this.props.el.date_creation}</p>
           </p>
           <ul className="list-unstyled list-inline mb-0 text-dark">
             <li className="list-inline-item mr-3">
               <MDBIcon className="mr-2" icon="envelope" />
-              Send message
+              Evoyer message
             </li>
             <li className="list-inline-item mr-3 ">
               <MDBIcon className="mr-2" icon="user" />
-              See profile
+              Voir commentaires
             </li>
-            <li className="list-inline-item mr-3">
-              <MDBIcon className="mr-2" icon="rss" />
-              Follow
-            </li>
+           
           </ul>
         </MDBCardHeader>
-        <MDBMedia className="p-4 searchbar text-white">
-          <MDBMedia>
-            <img
-              className="card-img-100  d-flex z-depth-1 mr-3"
-              src="https://mdbootstrap.com/img/Photos/Avatars/img%20(8).jpg"
-              alt=""
-            />
-          </MDBMedia>
+      
+        <MDBMedia className="p-2 text-dark bg-white ">
+      
           <MDBMedia body>
-            <h5 className="font-weight-bold text-warning mt-0">Danny Newman</h5>
+            <h3 className="font-weight-bold text-success ">{this.props.el.titre}</h3>
             <ul className="list-unstyled list-inline mb-2 pt-1">
               <li className="list-inline-item">
-                <MDBIcon fab className="grey-text" size="lg" icon="facebook" />
+                <MDBIcon fab className="white-text" size="lg" icon="facebook" />
               </li>
               <li className="list-inline-item">
-                <MDBIcon fab className="grey-text" size="lg" icon="twitter" />
+                <MDBIcon fab className="white-text" size="lg" icon="twitter" />
               </li>
               <li className="list-inline-item">
                 <MDBIcon
                   fab
-                  className="grey-text"
+                  className="white-text"
                   size="lg"
                   icon="google-plus"
                 />
               </li>
               <li className="list-inline-item">
-                <MDBIcon fab className="grey-text" size="lg" icon="linkedin" />
+                <MDBIcon fab className="white-text" size="lg" icon="linkedin" />
               </li>
               <li className="list-inline-item">
-                <MDBIcon fab className="grey-text" size="lg" icon="instagram" />
+                <MDBIcon fab className="text-white" size="lg" icon="instagram" />
               </li>
             </ul>
-            <p>
-              {" "}
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis
-              tenetur sit voluptatem molestias ad neque veritatis! Alias natus,
-              nobis laudantium, veritatis, atque illum ipsam nisi voluptas
-              nesciunt harum laborum perspiciatis!
-            </p>
+         
+        <div className="text ">
+       {this.props.el.text}
+        </div>
+   
+          
           </MDBMedia>
+         
         </MDBMedia>
-      </MDBContainer>
+        <MDBMedia body>
+            <MDBBtn className="w-100 m-0" color="light">lire l'article</MDBBtn>
+          </MDBMedia>
+      </div>
     );
   }
 }

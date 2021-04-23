@@ -12,7 +12,7 @@ import Typed from "react-typed";
 export class topnavbar extends Component {
   render() {
     return (
-      <MDBCardHeader className="p-0">
+      <MDBCardHeader className="p-0 border-0 ">
         <BrowserRouter>
           <MDBNav className="d-flex justify-content-between   ">
             <MDBNavItem>
@@ -61,7 +61,7 @@ export class topnavbar extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {};
 
