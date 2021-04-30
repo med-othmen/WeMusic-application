@@ -3,12 +3,10 @@ import { connect } from "react-redux";
 import {
   MDBRow,
   MDBCol,
-  MDBCard,
   MDBCardBody,
   MDBMask,
   MDBIcon,
   MDBView,
-  MDBCardTitle,
   MDBContainer,
 } from "mdbreact";
 import * as moment from "moment";

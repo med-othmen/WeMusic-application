@@ -1,117 +1,65 @@
 import React, { Component } from "react";
-import { BrowserRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import {
-  MDBBtn,
-  MDBCol,
   MDBCard,
   MDBCardTitle,
-  MDBCardGroup,
   MDBCardImage,
-  MDBCardText,
   MDBCardBody,
-  MDBCardFooter,
-  MDBRating,
-  MDBNavItem,
-  MDBDropdown,
-  MDBDropdownToggle,
-  MDBDropdownMenu,
-  MDBDropdownItem,
-  MDBNav,
-  MDBContainer,
-  MDBRow,
   MDBBadge,
   MDBTooltip,
-  MDBIcon,
+  MDBRow,
+  MDBCol,
 } from "mdbreact";
 import { cartActions } from "../actions/cart.actions";
 import { productsActions } from "../actions/product.actions";
+import ReactStars from "react-rating-stars-component";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Pagination from "../pagination/pagination";
 import "./secondmenu.css";
 
 export class Filtrebar extends Component {
-  state = {
-    cartadd: false,
-    data: [
-      {
-        tooltip: "Very Bad",
-        choosed: true,
-      },
-      {
-        tooltip: "Poor",
-      },
-      {
-        tooltip: "Ok",
-      },
-      {
-        tooltip: "Good",
-      },
-      {
-        tooltip: "Excellent",
-      },
-    ],
-    sleeve_condition: "",
-    artiste: "",
-    type: "",
-    genre: "",
-    title: "",
-  };
-  handleChange(e) {
-    console.log(e.target.value);
+  constructor(props) {
+    super(props);
+    this.state = {
+      cartadd: false,
+      sleeve_condition: "",
+      artiste: "",
+      type: "",
+      genre: "",
+      title: "",
+      rating: "",
+      posts: [],
+      loading: false,
+      currentPage: 1,
+      postsperPage: 20,
+    };
+    this.paginate = this.paginate.bind(this);
   }
 
+  componentDidMount() {
+    this.setState({ loading: true });
+    this.setState({ posts: this.props.products });
+    this.setState({ loading: false });
+  }
+  paginate(pageNumber) {
+    this.setState({ currentPage: pageNumber });
+    console.log(pageNumber);
+  }
   render() {
+    // Get current posts
+    const indexOfLastPost = this.state.currentPage * this.state.postsperPage;
+    const indexOfFirstPost = indexOfLastPost - this.state.postsperPage;
+    const currentPosts = this.state.posts.slice(
+      indexOfFirstPost,
+      indexOfLastPost
+    );
     return (
-      <div className="registresurface ">
-        <div className="d-flex justify-content-around  bg-light flex-wrap">
-          <div className="m-0">
-            <select
-              className="m-2  custom-select bg-light border-0"
-              onChange={(e) => this.setState({ artiste: e.target.value })}
-            >
-              <option value=""> artiste </option>
-
-              {this.props.artistes.map((el) => (
-                <option> {el.nom} </option>
-              ))}
-            </select>
-          </div>{" "}
-          <div className="m-0">
-            <select
-              onChange={(e) => this.setState({ genres: e.target.value })}
-              className="m-2  custom-select bg-light border-0"
-            >
-              <option value="ff"> Genre</option>
-              {this.props.genres.map((el) => (
-                <option> {el.libelle} </option>
-              ))}
-            </select>
-          </div>{" "}
-          <div className="m-0">
-            <select
-              onChange={(e) => this.setState({ type: e.target.value })}
-              className="m-2  custom-select bg-light border-0"
-            >
-              <option value=""> Type </option>
-              {this.props.types.map((el) => (
-                <option> {el.libelle} </option>
-              ))}
-            </select>
-          </div>{" "}
-          <div className="m-0">
-            <select
-              onChange={(e) =>
-                this.setState({ sleeve_condition: e.target.value })
-              }
-              className="m-2  custom-select bg-light border-0"
-            >
-              <option value=""> Etat de produit </option>
-              {this.props.sleeve_conditions.map((el) => (
-                <option> {el.libelle} </option>
-              ))}
-            </select>
-          </div>{" "}
-          <div className="m-0">
-            <div className="input-group  p-2 ">
+      <MDBRow className="ml-3 mr-3">
+        <MDBCol md="2" className="p-2 bg-light ">
+          <div className=" pt-4">
+            <div className="input-group  p-0 float-right ">
               <input
                 onChange={(e) => this.setState({ title: e.target.value })}
                 type="text"
@@ -129,115 +77,288 @@ export class Filtrebar extends Component {
                 </span>
               </div>
             </div>
+            <label className="mt-4 p-1">Moyenne des commentaires client</label>
+            <select
+              className=" custom-select  "
+              onChange={(e) => this.setState({ rating: e.target.value })}
+            >
+              <option value=""> Tous </option>
+              <option value="1"> 1 & plus</option>
+              <option value="2"> 2 & plus</option>
+              <option value="3"> 3 & plus </option>
+              <option value="4"> 4 & plus</option>
+            </select>
+
+            <label className="mt-4 p-1">artiste</label>
+            <select
+              className=" custom-select  "
+              onChange={(e) => this.setState({ artiste: e.target.value })}
+            >
+              <option value=""> Tous </option>
+
+              {this.props.artistes.map((el) => (
+                <option> {el.nom} </option>
+              ))}
+            </select>
+            <label className="mt-4 p-1">Genre</label>
+            <select
+              onChange={(e) => this.setState({ genre: e.target.value })}
+              className="  custom-select "
+            >
+              <option value="">Tous </option>
+              {this.props.genres.map((el) => (
+                <option> {el.libelle} </option>
+              ))}
+            </select>
+            <label className="mt-4 p-1">Type</label>
+            <select
+              onChange={(e) => this.setState({ type: e.target.value })}
+              className=" custom-select  "
+            >
+              <option value=""> Tous </option>
+              {this.props.types.map((el) => (
+                <option> {el.libelle} </option>
+              ))}
+            </select>
+            <label className="mt-4 p-1">Etat de produit</label>
+            <select
+              onChange={(e) =>
+                this.setState({ sleeve_condition: e.target.value })
+              }
+              className=" custom-select  "
+            >
+              <option value=""> Tous </option>
+              {this.props.sleeve_conditions.map((el) => (
+                <option> {el.libelle} </option>
+              ))}
+            </select>
           </div>
-        </div>
-        <div className="d-flex flex-wrap justify-content-center ">
-          {this.props.products
-            .filter((el) =>
-              this.state.artiste === "" ? el : el.artiste === this.state.artiste
-            )
-            .filter((el) =>
-              this.state.genre === "" ? el : el.genre === this.state.genre
-            )
-            .filter((el) =>
-              this.state.type === "" ? el : el.type === this.state.type
-            ).filter((el) =>
-            this.state.sleeve_condition === "" ? el : el.sleeve_condition === this.state.sleeve_condition
-          ).filter((el) =>
-          this.state.title === "" ? el : el.title.includes(this.state.title)
-        )
-            .map((el, index) => (
-              <div className="float-center">
-                <MDBCard
-                  className="m-3 border "
-                  style={{
-                    maxWidth: "20rem",
-                  }}
-                >
-                  <MDBCardImage
-                    cascade
-                    top
-                    src="http://yard.media/wp-content/uploads/2016/02/808sHeartbreak.jpg"
-                    alt="produit"
-                  />
+        </MDBCol>
+        <ToastContainer autoClose={2000} />
+        <MDBCol md="10" className="p-0">
+          <Pagination
+            postsPerPage={this.state.postsperPage}
+            totalPosts={this.props.products.length}
+            paginate={this.paginate}
+            currentPage={this.state.currentPage}
+          />
+          {this.state.loading === true ? (
+            <h1>loading ....</h1>
+          ) : (
+            <div className="d-flex  flex-wrap justify-content-center border ">
+              {currentPosts
+                .filter((el) =>
+                  this.state.artiste === ""
+                    ? el
+                    : el.artiste === this.state.artiste
+                )
+                .filter((el) =>
+                  this.state.rating === ""
+                    ? el
+                    : el.rating >= Number(this.state.rating) * 10
+                )
+                .filter((el) =>
+                  this.state.genre === "" ? el : el.genre === this.state.genre
+                )
+                .filter((el) =>
+                  this.state.type === "" ? el : el.type === this.state.type
+                )
+                .filter((el) =>
+                  this.state.sleeve_condition === ""
+                    ? el
+                    : el.sleeve_condition === this.state.sleeve_condition
+                )
+                .filter((el) =>
+                  this.state.title === ""
+                    ? el
+                    : el.title
+                        .toUpperCase()
+                        .includes(this.state.title.toUpperCase())
+                ).length === 0 ? (
+                <h1 className="searchContainer">
+                  Aucun produit disponible...{" "}
+                </h1>
+              ) : (
+                currentPosts
+                  .filter((el) =>
+                    this.state.artiste === ""
+                      ? el
+                      : el.artiste === this.state.artiste
+                  )
+                  .filter((el) =>
+                    this.state.rating === ""
+                      ? el
+                      : el.rating >= Number(this.state.rating) * 10
+                  )
+                  .filter((el) =>
+                    this.state.genre === "" ? el : el.genre === this.state.genre
+                  )
+                  .filter((el) =>
+                    this.state.type === "" ? el : el.type === this.state.type
+                  )
+                  .filter((el) =>
+                    this.state.sleeve_condition === ""
+                      ? el
+                      : el.sleeve_condition === this.state.sleeve_condition
+                  )
+                  .filter((el) =>
+                    this.state.title === ""
+                      ? el
+                      : el.title
+                          .toUpperCase()
+                          .includes(this.state.title.toUpperCase())
+                  )
+                  .map((el, index) => (
+                    <div className="float-center">
+                      <MDBCard
+                        minHeight
+                        className="m-2"
+                        style={{
+                          maxWidth: "18rem",
+                          minHeight: "370px",
+                        }}
+                      >
+                        <MDBCardImage
+                          top
+                          src="https://cdn.shopify.com/s/files/1/0047/6197/6945/products/Pochette_carton_600x.jpg?v=1539347666"
+                          alt="produit"
+                        />
 
-                  <MDBCardBody cascade>
-                    <MDBBadge pill color="danger" className="p-3 mb-3">
-                      -{" "}
-                      {Math.trunc(
-                        (Number(el.first_price - el.promo_price) /
-                          el.first_price) *
-                          100
-                      )}{" "}
-                      %
-                    </MDBBadge>
-                    <br></br>
+                        <MDBCardBody cascade>
+                          <MDBBadge pill color="danger" className="p-3 mb-2 ">
+                            -
+                            {Math.trunc(
+                              (Number(el.first_price - el.promo_price) /
+                                el.first_price) *
+                                100
+                            )}
+                            %
+                          </MDBBadge>
 
-                    <p className="blue-text " style={{ minHeight: "40px" }}>
-                      <span className="text-muted grey-text"> Vendu par </span>{" "}
-                      {el.media_home}
-                    </p>
+                          <br></br>
 
-                    <MDBCardTitle>
-                      <strong>
-                        <p
-                          className="text-center   "
-                          style={{ minHeight: "60px" }}
-                        >
-                          {el.title}{" "}
-                        </p>
-                      </strong>
-                      <div className="">
-                        <MDBRating data={this.state.data} />
-                      </div>
-                    </MDBCardTitle>
-                    <MDBCardText style={{ minHeight: "30px" }}>
-                      {el.description}
-                    </MDBCardText>
-                    <span className="float-left"> {el.first_price}$</span>
-                    <span className="float-right">
-                      <MDBTooltip domElement placement="top">
-                        <i className="grey-text fa fa-eye fa-2x mr-3" />
-                        <h5 className="p-1">Voir le produit</h5>
-                      </MDBTooltip>
-                      <MDBTooltip domElement placement="top">
-                        <i className="grey-text fa fa-heart fa-2x mr-3 " />
-                        <h6 className="p-2">Ajouter au panier</h6>
-                      </MDBTooltip>
-                      {this.props.cart.filter((er) => er.product.id === el.id)
-                        .length !== 0 ? (
-                        <MDBTooltip domElement placement="top">
-                          <i
-                            onClick={() => this.props.delete(el.id)}
-                            className="grey-text fa fa-times-circle text-danger fa-2x "
-                          />
+                          <p
+                            className="blue-text "
+                            style={{ minHeight: "40px" }}
+                          >
+                            <span className="text-muted grey-text">
+                              {" "}
+                              Vendu par{" "}
+                            </span>{" "}
+                            {el.media_home}
+                          </p>
 
-                          <h6 className="p-2">Supprimer au panier</h6>
-                        </MDBTooltip>
-                      ) : (
-                        <MDBTooltip domElement placement="top">
-                          <i
-                            onClick={() =>
-                              this.props.addToCard({
-                                id: index,
-                                product: el,
-                                quantity: 1,
-                                total: el.first_price,
-                              })
-                            }
-                            className="grey-text fa fa-shopping-cart fa-2x "
-                          />
+                          <MDBCardTitle>
+                            <strong>
+                              <p
+                                className="text-center   "
+                                style={{ minHeight: "60px" }}
+                              >
+                                {el.title}{" "}
+                              </p>
+                            </strong>
+                            <div>
+                              <span className="float-left">
+                                {" "}
+                                <ReactStars
+                                  value={el.rating / 10}
+                                  count={5}
+                                  edit={false}
+                                  isHalf={true}
+                                  size={20}
+                                  activeColor="#ffd700"
+                                />{" "}
+                              </span>{" "}
+                              <span className="float-right">
+                                <small className="grey-text">{el.rating}</small>
+                              </span>
+                            </div>
+                            <br></br>
+                          </MDBCardTitle>
 
-                          <h6 className="p-2">Ajouter au panier</h6>
-                        </MDBTooltip>
-                      )}
-                    </span>
-                  </MDBCardBody>
-                </MDBCard>{" "}
-              </div>
-            ))}
-        </div>
-      </div>
+                          <span className="float-left"> {el.first_price}$</span>
+                          <span className="float-right">
+                            <MDBTooltip domElement placement="top">
+                              <Link to={"/product/" + el.id}>
+                                <i className="grey-text fa fa-eye fa-2x mr-4" />
+                              </Link>
+                              <h6 className="p-2">Voir le produit</h6>
+                            </MDBTooltip>
+
+                            {!el.like ? (
+                              <MDBTooltip domElement placement="top">
+                                <i
+                                  className="grey-text fa fa-heart fa-2x mr-4 "
+                                  onClick={() => {
+                                    this.props.rate({
+                                      id: el.id,
+                                      rating: el.rating + 1,
+                                      like: true,
+                                    });
+                                  }}
+                                />
+                                <h6 className="p-2">J'aime</h6>
+                              </MDBTooltip>
+                            ) : (
+                              <MDBTooltip domElement placement="top">
+                                <i
+                                  className="grey-text fa fa-heart text-danger fa-2x mr-4 "
+                                  onClick={() => {
+                                    this.props.rate({
+                                      id: el.id,
+                                      rating: el.rating - 1,
+                                      like: false,
+                                    });
+                                  }}
+                                />
+                                <h6 className="p-2">J'aime pas</h6>
+                              </MDBTooltip>
+                            )}
+
+                            {this.props.cart.filter(
+                              (er) => er.product.id === el.id
+                            ).length !== 0 ? (
+                              <MDBTooltip domElement placement="top">
+                                <i
+                                  onClick={() => this.props.delete(el.id)}
+                                  className="grey-text fa fa-times-circle text-danger fa-2x "
+                                />
+
+                                <h6 className="p-2">Enléver de panier</h6>
+                              </MDBTooltip>
+                            ) : (
+                              <MDBTooltip domElement placement="top">
+                                <i
+                                  onClick={() =>
+                                    this.props.addToCard({
+                                      id: index,
+                                      product: el,
+                                      quantity: 1,
+                                      total: el.promo_price,
+                                    })
+                                  }
+                                  className="grey-text fa fa-shopping-cart fa-2x "
+                                />
+
+                                <h6 className="p-2">Ajouter au panier</h6>
+                              </MDBTooltip>
+                            )}
+                          </span>
+                        </MDBCardBody>
+                      </MDBCard>{" "}
+                    </div>
+                  ))
+              )}
+            </div>
+          )}
+          <Pagination
+            postsPerPage={this.state.postsperPage}
+            totalPosts={this.props.products.length}
+            paginate={this.paginate}
+            currentPage={this.state.currentPage}
+          />
+        </MDBCol>
+      </MDBRow>
     );
   }
 }
@@ -255,71 +376,7 @@ const mapDispatchToProps = (dispatch) => ({
   addToCard: (product) => dispatch(cartActions.add_to_cart(product)),
   getallProducts: () => dispatch(productsActions.getallproduct()),
   delete: (id) => dispatch(cartActions.delete_from_cart(id)),
+  rate: (data) => dispatch(productsActions.update_product(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filtrebar);
-
-/*
- style={{
-                maxWidth: "20rem",
-              }}
-         <MDBCard>
-                  <MDBCardBody>
-                 
-                    <p
-                      className="text-center pt-3  "
-                      style={{ minHeight: "60px" }}
-                    >
-                      {el.title}{" "}
-                    </p>
-                    <MDBCardText>
-                      Vendu par{" "}
-                      <p className="blue-text " style={{ minHeight: "30px" }}>
-                        {el.media_home}
-                      </p>{" "}
-                    </MDBCardText>{" "}
-                    <div className="mw-100">
-                      <h4 className="font-weight-bold text-center">
-                        {el.first_price}$
-                      </h4>
-                      <p className="text-left text-danger  text-center">
-                        Promo prix :{el.promo_price}$
-                      </p>
-                    </div>
-                  </MDBCardBody>
-                  <MDBCardFooter className="p-0 border-0">
-                    <div className="border-top border-bottom">
-                      <MDBRating data={this.state.data} />
-                    </div>
-                    <div>
-                      {this.props.cart.filter((er) => er.product.id === el.id)
-                        .length !== 0 ? (
-                        <MDBBtn
-                          outline
-                          color=""
-                          onClick={() => this.props.delete(el.id)}
-                          className=" w-100 z-depth-0  text-danger  font-weight-bold "
-                        >
-                          Enlever de panier
-                        </MDBBtn>
-                      ) : (
-                        <MDBBtn
-                          onClick={() =>
-                            this.props.addToCard({
-                              id: index,
-                              product: el,
-                              quantity: 1,
-                              total: el.first_price,
-                            })
-                          }
-                          color="success"
-                          className=" w-100 m-0  z-depth-0  text-dark  font-weight-bold "
-                        >
-                          Ajouter au panier
-                        </MDBBtn>
-                      )}
-                    </div>
-                  </MDBCardFooter>{" "}
-                </MDBCard>{" "}
-            
-              */

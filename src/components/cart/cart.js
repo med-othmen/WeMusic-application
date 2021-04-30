@@ -1,50 +1,41 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { MDBRow, MDBCol, MDBContainer, MDBCardFooter, MDBBtn } from "mdbreact";
+import {
+  MDBRow,
+  MDBCol,
+  MDBContainer,
+  MDBCardFooter,
+  MDBBtn,
+  MDBCardTitle,
+} from "mdbreact";
 import { cartActions } from "../actions/cart.actions";
-let total = 0;
+
 export class Cart extends Component {
-  state = {
-    total: [],
-  };
-  componentDidMount() {
-    this.props.cart.map((el) =>
-      this.state.total.push({ id: el.id, total: el.total })
-    );
-  }
   render() {
-  
     return (
-      
       <MDBContainer className="index_geuss">
-            <h3 className="h1-responsive font-weight-bold  ">
-                  Panier
-                </h3>  <a className="text-muted">
-                ({this.props.cart.length} &nbsp;article)
-              </a>
-            
+        <MDBCardTitle tag="h2">Mon panier</MDBCardTitle>
+        <hr></hr>
         <MDBRow>
-          <MDBCol md="8" className="p-0">
-         
+          <MDBCol md="8">
             {this.props.cart.map((el, index) => (
-              <MDBRow className=" mt-1 mb-5" >
-                {el.id}
-                <MDBCol md='3'>
+              <MDBRow className=" mt-1 mb-5">
+                <MDBCol md="3">
                   <img
-                    src="https://www.cdiscount.com/pdt2/7/6/2/1/550x550/umi8786137531762/rw/umidigi-a9pro-4g-smartphone-6-3-4go-64go.jpg"
+                     src="https://cdn.shopify.com/s/files/1/0047/6197/6945/products/Pochette_carton_600x.jpg?v=1539347666"
                     className="img-fluid p-"
-                    width="120px"
+                    width="150px"
                     alt=""
                   />
                 </MDBCol>
-                <MDBCol md='6'>
+                <MDBCol md="6">
                   <h6 className="font-weight-bold">{el.product.title} </h6>
                   <p>{el.product.media_home}</p>
-                  <p>{el.product.artiste}</p>
+
                   <span className="font-weight-bold">
                     {el.product.first_price}$
                   </span>
-                  <p>{el.product.description}</p>
+
                   <p>{el.product.type}</p>
                   <p>{el.product.genre}</p>
                 </MDBCol>
@@ -58,21 +49,8 @@ export class Cart extends Component {
                           quantity: e.target.value,
                           price: el.product.first_price,
                         });
-                        this.state.total.map((item, index) => {
-                          // Find the item with the matching id
-                          if (item.id === el.id) {
-                            // Return a new object
-                            return {
-                              ...item, // copy the existing item
-                              total: el.product.first_price * e.target.value,
-                            };
-                          }
-                          // Leave every other item unchanged
-                          return item;
-                        });
                       }}
                     >
-                      <option>{el.quantity}</option>
                       <option value="1"> 1</option>
                       <option value="2"> 2</option>
                       <option value="3"> 3</option>
@@ -87,7 +65,6 @@ export class Cart extends Component {
                   </div>
                   <div className="text-right mt-5">
                     <h5>
-                      {" "}
                       Total : <strong>{el.total}$</strong>{" "}
                     </h5>
                   </div>
@@ -103,34 +80,27 @@ export class Cart extends Component {
               </MDBRow>
             ))}
           </MDBCol>
-          <MDBCol md="4" className="  font-weight-bold ">
-            <div className=" mt-5 ">
-              <div >
-                <div className=" text-dark p-1  ">
-                  <h3 className="mt-1 "> Récapitulatif</h3>
+          <MDBCol md="4">
+                <div className=" text-dark">
+                  <h3 className=""> Récapitulatif</h3>{" "}
+                  <span className="text-muted">
+                    ({this.props.cart.length} &nbsp;article)
+                  </span>
                 </div>{" "}
-                <div className="h-5 ">
                   <div className="d-flex justify-content-between">
-                    <div className="p-2 col-example text-left">
-                      {" "}
-                      <h5 className="text-monospace">Frais :</h5>
+                    <div className="p-2 col-example">
+                      <h4 className="h6-responsive font-weight-bold text-left">
+                        Total
+                      </h4>
                     </div>
-                    <div className="p-2 col-example text-left">
-                      {" "}
-                      <h5 className="text-monospace">0 $</h5>
-                    </div>
-                  </div>{" "}
-                  <div className="d-flex justify-content-between">
-                    <div className="p-2 col-example text-left">
-                      {" "}
-                      <h5 className="text-monospace">Total :</h5>
-                    </div>
-                    <div className="p-2 col-example text-left ">
-                      {" "}
-                      <h5 className="text-monospace">{total}$</h5>
+                    <div className="p-2 col-example">
+                      <MDBCardTitle tag="H4">
+                        <h2 className="h5-responsive font-weight-bold text-right">
+                          {this.props.totalPrice}$
+                        </h2>
+                      </MDBCardTitle>
                     </div>
                   </div>
-                </div>{" "}
                 <img
                   src="https://files.bs-motoparts.eu/shopprojekt/zahlarten-kreditkarten-frankreich.png"
                   className="img-fluid"
@@ -141,12 +111,9 @@ export class Cart extends Component {
                     color=""
                     className="border-0 z-depth-0  w-100 bg-success"
                   >
-                    {" "}
                     PAIEMENT
                   </MDBBtn>
                 </MDBCardFooter>
-              </div>
-            </div>
           </MDBCol>
         </MDBRow>
       </MDBContainer>
@@ -154,9 +121,17 @@ export class Cart extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  cart: state.cart,
-});
+const mapStateToProps = (state) => {
+  let totalPrice = 0;
+  state.cart.map((item) => {
+    totalPrice += item.total;
+  });
+  return {
+    cart: state.cart,
+    totalPrice: totalPrice,
+    user: state.authentication.user,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
   delete: (id) => dispatch(cartActions.delete_from_cart(id)),
@@ -164,22 +139,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
-
-/*
-   <input
-                    min="1"
-                      defaultValue={el.quantity}
-                      type="number"
-                      name="quantity"
-                      onChange={(e)=> {
-                      let idprod=el.product.id;
-                      this.props.update({
-                        id:idprod,
-                        quantity:e.currentTarget.value
-                      })
-                    
-                    }}
-                   
-                      className="form-control w-25 float-right"
-                    />
-                    */

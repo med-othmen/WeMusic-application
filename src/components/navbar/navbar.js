@@ -113,26 +113,25 @@ export class NavbarPage extends Component {
                   >
                     <MDBDropdownToggle nav>
                       <img
-                        src="https://mdbootstrap.com/img/Photos/Avatars/img%20(20).jpg"
+                        src="https://qualium-investissement.com/wp-content/uploads/2017/05/inconnu-small.jpg"
                         width="45px"
                         alt=""
                         className="rounded-circle mt-4 img-fluid  "
                       />
                     </MDBDropdownToggle>
-                    <MDBDropdownMenu className="mt-5 ">
+                    <MDBDropdownMenu >
                       <Link to="/profil">
                         <MDBDropdownItem href="#!">
-                          {" "}
-                          <MDBBtn outline color="" className="z-depth-0 p-0">
-                            Mon profil
+                          <MDBBtn outline color="" className="z-depth-0 w-100 p-2">
+                            Profil
                           </MDBBtn>
-                        </MDBDropdownItem>{" "}
+                        </MDBDropdownItem >{" "}
                       </Link>
-                      <MDBDropdownItem>
+                      <MDBDropdownItem href="#!">
                         <MDBBtn
-                          outline
+                       
                           color=""
-                          className="z-depth-0 p-0"
+                          className="z-depth-0 p-2 w-100"
                           onClick={() => this.props.logout()}
                         >
                           Déconexion
@@ -177,10 +176,10 @@ export class NavbarPage extends Component {
                     </MDBDropdownToggle>
                     <MDBDropdownMenu>
                       <Link to="/login">
-                        <MDBDropdownItem>Connexion</MDBDropdownItem>{" "}
+                        <MDBDropdownItem  href="#!">Connexion</MDBDropdownItem>{" "}
                       </Link>
                       <Link to="/registre">
-                        <MDBDropdownItem>Inscription</MDBDropdownItem>
+                        <MDBDropdownItem  href="#!">Inscription</MDBDropdownItem>
                       </Link>
                     </MDBDropdownMenu>
                   </MDBDropdown>

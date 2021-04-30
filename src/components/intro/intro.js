@@ -16,7 +16,6 @@ import { alertActions } from "../actions/alert.actions";
 export class Intro extends Component {
   onHandleLogin = (event) => {
     event.preventDefault();
-
     let email = event.target.email.value;
     let password = event.target.password.value;
     this.props.singin(email, password);
@@ -37,8 +36,8 @@ export class Intro extends Component {
               >
                 <MDBAnimation type="fadeInLeft" delay=".3s">
                   <h1 className="h1-responsive font-weight-bold mt-sm-5 text-white bg-dark p-4">
-                    Trouvez ce que vous kiffer de musique, films, old
-                    recorder...
+                    Trouvez ce que vous kiffer de musique, films, encien
+                    records...
                   </h1>
                   <hr className="hr-light " />
                   <h6 className="mb-4 bg-white text-dark p-4 text-justify">
@@ -49,8 +48,8 @@ export class Intro extends Component {
                   </h6>
                   <div className="text-center">
                     <Link to="produits">
-                      <MDBBtn color="success" className="mt-5">
-                        Chercher un produit
+                      <MDBBtn color="success" className="mt-5 ">
+                     <h5>   Chercher un produit</h5>
                       </MDBBtn>
                     </Link>
                   </div>
@@ -59,7 +58,7 @@ export class Intro extends Component {
               {this.props.authentication.loggedIn ? (
                 ""
               ) : (
-                <MDBCol md="6" className="mt-xl-5">
+                <MDBCol md="6" className="mt-xl-5 d-none d-lg-block">
                   <MDBAnimation type="fadeInRight" delay=".3s">
                     <form
                       className="mt-5 bg-white p-5  "
@@ -99,7 +98,7 @@ export class Intro extends Component {
                       </div>
                       <div className="text-center w-100">
                         <MDBBtn className="w-100" type="submit" color="dark">
-                          Login
+                         <h6> Login</h6>
                         </MDBBtn>
                       </div>
                     </form>
@@ -125,45 +124,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Intro);
-
-/*
-  <MDBAnimation type="fadeInRight" delay=".3s">
-               
-                  <form className="mt-5 bg-white p-5 "  onSubmit={this.onHandleLogin}>
-                  {this.props.alert.message && (
-                  <MDBAlert
-                    dismiss
-                    className=" mb-4"
-                    color={this.props.alert.type}
-                  >
-                    {this.props.alert.message}
-                  </MDBAlert>
-                )}
-                    <div className="grey-text">
-                      <div className="form-group">
-                        <input
-                          placeholder="e-mail ou nom d'utilisateur"
-                          type="email"
-                          name="email"
-                          className="form-control"
-                          id="formGroupExampleInput"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <input
-                        name="password"
-                          placeholder="Mot de passe"
-                          type="password"
-                          className="form-control"
-                          id="formGroupExampleInput"
-                        />
-                      </div>
-                    </div>
-                    <div className="text-center w-100">
-                      <MDBBtn className="w-100" type="submit" color="dark">
-                        Login
-                      </MDBBtn>
-                    </div>
-                  </form>
-                </MDBAnimation>
-                */

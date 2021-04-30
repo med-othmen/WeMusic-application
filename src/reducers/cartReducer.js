@@ -33,15 +33,3 @@ const initialState =[]
   return state;
 }
 
-/*
-   const prod = state.find(b => action.data.id === b.id);
-    const prods = state.filter(b => action.data.id !== b.id);
-    return [
-      ...prods,
-      {
-        ...prod,
-        quantity: Number(action.data.quantity)
-      }
-    ];
-
-    */

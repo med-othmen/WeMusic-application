@@ -1,3 +1,7 @@
 .index_geuss {
   min-height: 84vh;
 }
+.searchContainer{
+  margin-top: 150px;
+  min-height: 283px;
+}

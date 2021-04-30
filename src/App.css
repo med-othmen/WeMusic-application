@@ -2,3 +2,6 @@ html {
   font-size: 13px;
   font-family: Arial, Helvetica;
 }
+.page-item:active {
+  color: red;
+}

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBAlert,MDBBox } from "mdbreact";
+import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBAlert } from "mdbreact";
 import { Link } from "react-router-dom";
 import "./registre.css";
 import { userActions } from "../actions/useractions";
@@ -16,34 +16,38 @@ export class registre extends Component {
     let name = event.target.name.value;
     let email = event.target.email.value;
     let password = event.target.password.value;
-
+    let role = "client";
     const data = {
       name,
       email,
       password,
+      role,
     };
 
     this.props.Signup(data);
   };
   render() {
     return (
-      <MDBContainer className="registresurface mt-5">
+      <MDBContainer className="registresurface ">
         <MDBRow className="p-0">
           <MDBCol md="4"> </MDBCol>
-          <MDBCol md="4" >
-          <MDBAlert color="dark" className="mt-5">
+          <MDBCol md="4">
+            <MDBAlert color="dark" className="mt-5">
               <form onSubmit={this.onHandleRegistration}>
+                <label className="text-center w-100 p-2 mt-3">
+                  Inscription gratuite et rapide !
+                </label>
                 {this.props.alert.message && (
-                 <MDBAlert
-                 dismiss
-                 className="mt-5 mb-2"
-                 color={this.props.alert.type}
-               >
+                  <MDBAlert
+                    dismiss
+                    className="mt-1 mb-2"
+                    color={this.props.alert.type}
+                  >
                     {this.props.alert.message}
                   </MDBAlert>
                 )}
+
                 <div className="form-group mt-4 ">
-  
                   <input
                     type="text"
                     name="name"
@@ -53,7 +57,6 @@ export class registre extends Component {
                     placeholder="Nom"
                   />
                   <br />
-                
                   <input
                     type="email"
                     name="email"
@@ -76,29 +79,27 @@ export class registre extends Component {
                     <MDBBtn
                       type="submit"
                       color="dark"
-                      className="z-depth-0  w-responsive  w-100 rounded"
+                      className="z-depth-0  w-responsive m-0  w-100 rounded"
                     >
                       S'inscrire
                     </MDBBtn>
                   </div>{" "}
-<hr></hr>
-                <br />
+                  <hr></hr>
+                  <br />
                   <Link to="/login">
-                  <MDBBtn
-                  type="submit"
-                  color=""
-                  className="z-depth-0 w-100 w-responsive text-dark  mt-3 rounded "
-                >
-                  Se connecter
-                </MDBBtn>
+                    <MDBBtn
+                      type="submit"
+                      color=""
+                      className="z-depth-0 w-100 w-responsive text-dark  m-0 rounded "
+                    >
+                      Se connecter
+                    </MDBBtn>
                   </Link>
                 </div>
-               
-               
               </form>
             </MDBAlert>
           </MDBCol>
-          <MDBCol md="4"></MDBCol>{" "}
+          <MDBCol md="4"></MDBCol>
         </MDBRow>
       </MDBContainer>
     );

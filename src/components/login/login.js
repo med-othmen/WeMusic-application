@@ -1,13 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  MDBContainer,
-  MDBRow,
-  MDBBtn,
-  MDBCol,
-  MDBIcon,
-  MDBAlert,
-} from "mdbreact";
+import { MDBContainer, MDBRow, MDBBtn, MDBCol, MDBAlert } from "mdbreact";
 import "./login.css";
 import { Link } from "react-router-dom";
 import { userActions } from "../actions/useractions";
@@ -16,24 +9,25 @@ import { alertActions } from "../actions/alert.actions";
 export class login extends Component {
   onHandleLogin = (event) => {
     event.preventDefault();
-
     let email = event.target.email.value;
     let password = event.target.password.value;
-    this.props.singin(email, password);
+    console.log(email, password);
+    this.props.singin(email,password)
   };
   render() {
     return (
       <MDBContainer>
-        <MDBRow className=" loginsurface mt-5  ">
-        <MDBCol md="4"></MDBCol>
+        <MDBRow className=" loginsurface  ">
+          <MDBCol md="4"></MDBCol>
           <MDBCol className="bd_lodgin">
             {" "}
             <MDBAlert color="dark" className="mt-5">
               <form onSubmit={this.onHandleLogin}>
+              <label className="text-center w-100 p-2 mt-3">Connexion</label>
                 {this.props.alert.message && (
                   <MDBAlert
                     dismiss
-                    className="mt-5 mb-2"
+                    className="mt-1 mb-2"
                     color={this.props.alert.type}
                   >
                     {this.props.alert.message}
@@ -61,8 +55,8 @@ export class login extends Component {
                 <MDBBtn
                   flat
                   type="submit"
-                  color="dark"
-                  className="z-depth-0 w-100 w-responsive  mt-3 rounded "
+                  color="success"
+                  className="z-depth-0 w-100 w-responsive  mt-3 rounded m-0 "
                 >
                   Se connecter
                 </MDBBtn>
@@ -71,6 +65,9 @@ export class login extends Component {
                   <span> Mot de passe oublié?</span>
                 </div>
                 <hr></hr>
+                <p>
+Vous n'êtes pas encore membre de Wemusic !
+N'attendez plus pour vous inscrire gratuitement !</p>
                 <Link to="/registre">
                   <MDBBtn
                     outline
@@ -100,4 +97,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(login);
-//

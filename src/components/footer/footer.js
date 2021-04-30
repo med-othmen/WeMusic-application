@@ -1,34 +1,38 @@
 import React from "react";
-import { MDBCol, MDBContainer, MDBRow, MDBFooter, MDBIcon } from "mdbreact";
+import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
 
 const FooterPage = () => {
   return (
-    <MDBFooter color="white" className="font-small pt-4  text-dark border-top ">
+    <MDBFooter color="light" className="font-small pt-4  text-dark border-top Footer">
       <MDBContainer fluid className="text-center  text-md-left ">
         <MDBRow>
           <MDBCol md="6">
             <ul>
               <li className="list-unstyled text-dark">
-                <a href="#!" className=" text-dark">
-                  K7
-                </a>
+                <h5 className=" text-dark">
+                Kassette
+                </h5>
               </li>
               <li className="list-unstyled">
-                <a href="#!" className=" text-dark">
+              <h5 className=" text-dark">
                   CD/DVD
-                </a>
+                  </h5>
               </li>{" "}
               <li className="list-unstyled">
-                <a href="#!" className=" text-dark">
-                  CD/DVD
-                </a>
+              <h5 className=" text-dark">
+                  Disque
+                  </h5>
               </li>{" "}
-              <li className="list-unstyled">
-                <a href="#!" className=" text-dark">
-                  CD/DVD
-                </a>
-              </li>
+             
             </ul>
+            <div className="ml-5">
+              <h2 className="h5-responsive text-dark font-weight-bold my-2">
+                Suivez nous
+              </h2>
+              <img alt="" src="https://img.icons8.com/fluent/48/000000/facebook-new.png" />
+              <img alt="" src="https://img.icons8.com/color/48/000000/youtube-music.png" />
+              <img alt="" src="https://img.icons8.com/fluent/48/000000/instagram-new.png" />
+            </div>
           </MDBCol>
           <MDBCol md="6">
             <h2>
@@ -43,30 +47,7 @@ const FooterPage = () => {
               Vos émotions méritent d'avoir leur musique
             </p>
 
-            <div className="d-flex justify-content-around">
-              <ul className="list-inline text-left list-unstyled">
-                <li className="list-inline-item">
-                  <a href="#!" className="p-2 fa-lg w-ic text-dark">
-                    <MDBIcon fab icon="twitter" size="2x" />
-                  </a>
-                </li>
-                <li className="list-inline-item">
-                  <a href="#!" className="p-2 fa-lg w-ic text-dark">
-                    <MDBIcon fab icon="linkedin-in" size="2x" />
-                  </a>
-                </li>
-                <li className="list-inline-item">
-                  <a href="#!" className="p-2 fa-lg w-ic text-dark">
-                    <MDBIcon fab icon="instagram" size="2x" />
-                  </a>
-                </li>{" "}
-                <li className="list-inline-item">
-                  <a href="#!" className="p-2 fa-lg w-ic text-dark">
-                    <MDBIcon fab icon="youtube" size="2x" />
-                  </a>
-                </li>
-              </ul>
-            </div>
+         
           </MDBCol>
         </MDBRow>
       </MDBContainer>

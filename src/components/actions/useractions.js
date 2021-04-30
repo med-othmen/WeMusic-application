@@ -1,80 +1,72 @@
-import {
-  userTypes
-} from '../../types/user.types';
-import {alertTypes} from '../../types/alert.types'
+import { userTypes } from "../../types/user.types";
+import { alertTypes } from "../../types/alert.types";
 import Axios from "axios";
-
 
 export const userActions = {
   login,
   register,
-  logout,update
+  logout,
+  update,
 };
 
 function login(email, password) {
-  return dispatch => {
-    dispatch(request({
-      email,password
-    }));
-    Axios.post("http://localhost:2000/user/login", {
-      email,
-      password
-    }, {
-      withCredentials: true,
-    }).then(
-      res => {
-        console.log(res.data.ok===true)
-        if(res.data.ok===true){
+  return (dispatch) => {
+    dispatch(
+      request({
+        email,
+        password,
+      })
+    );
+    Axios.post(
+      "http://localhost:2000/user/login",
+      {
+        email,
+        password,
+      }
+    ).then(
+      (res) => {
+        console.log(res.data.ok === true);
+        if (res.data.ok === true) {
           dispatch(success(res.data.text));
-        localStorage.setItem("user",JSON.stringify(res.data.text))
-        window.location.pathname = "/";
+          localStorage.setItem("user", JSON.stringify(res.data.text));
+          window.location.pathname = "/";
+        } else if (res.data.ok === false) {
+          dispatch(failure("user not found"));
+          dispatch(alert_error("utilisateur n existe pas "));
         }
-       else if(res.data.ok===false){
-        dispatch(failure("user not found"));
-        dispatch(alert_error('utilisateur n existe pas '));
-       }
-       
       },
-      error => {
-      
-        dispatch(failure("error"));
-
-      });
-     
+      (error) => {
+        dispatch(failure(error));
+      }
+    );
   };
-  function alert_success(message) {
-    return {
-      type: alertTypes.SUCCESS,
-      message
-    }
-  }
 
   function alert_error(message) {
     return {
       type: alertTypes.ERROR,
-      message
-    }
+      message,
+    };
   }
 
   function request(user) {
     return {
       type: userTypes.LOGIN_REQUEST,
-      user
-    }
+      user,
+    };
   }
 
   function success(user) {
     return {
       type: userTypes.LOGIN_SUCCESS,
-      user
-    }
+      user,
+    };
   }
 
   function failure(error) {
     return {
       type: userTypes.LOGIN_FAILURE,
-      error
-    }
+      error,
+    };
   }
 }
 
@@ -86,125 +78,113 @@ function logout() {
 }
 
 function register(user) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(request(user));
-    Axios.post("http://localhost:2000/user/registre", user).then(response => {
-        if (response.data.ok===true) {
+    Axios.post("http://localhost:2000/user/registre", user).then(
+      (response) => {
+        if (response.data.ok === true) {
           dispatch(success());
           dispatch(alert_success("Registration successful"));
-        }
-        else {
-          dispatch(failure('User already exist'));
+        } else {
+          dispatch(failure("User already exist"));
           dispatch(alert_error("Email deja existe"));
         }
       },
-      error => {
-
-      });
-
+      (error) => {}
+    );
   };
-
 
   function alert_success(message) {
     return {
       type: alertTypes.SUCCESS,
-      message
-    }
+      message,
+    };
   }
 
   function alert_error(message) {
     return {
       type: alertTypes.ERROR,
-      message
-    }
+      message,
+    };
   }
-
 
   function request(payload) {
     return {
       type: userTypes.REGISTER_REQUEST,
-      payload
-    }
+      payload,
+    };
   }
 
   function success(payload) {
     return {
       type: userTypes.REGISTER_SUCCESS,
-      payload
-    }
+      payload,
+    };
   }
 
   function failure(error) {
     return {
       type: userTypes.REGISTER_FAILURE,
-      error
-    }
+      error,
+    };
   }
 }
-function update(user){
-  return dispatch => {
-    console.log(user)
-    
+function update(user) {
+  return (dispatch) => {
+    console.log(user);
+
     dispatch(request(user));
-    Axios.post("http://localhost:2000/user/update", user).then(response => {
+    Axios.post("http://localhost:2000/user/update", user).then(
+      (response) => {
         if (response.data.ok) {
           dispatch(success());
-        dispatch(updatecurentuser(response.data.text));
-          localStorage.setItem("user",JSON.stringify(response.data.text))
+          dispatch(updatecurentuser(response.data.text));
+          localStorage.setItem("user", JSON.stringify(response.data.text));
           dispatch(alert_success("update successful"));
-         
-        }
-        else {
-          dispatch(failure('Error while update in database'));
-          
+        } else {
+          dispatch(failure("Error while update in database"));
         }
       },
-      error => {
+      (error) => {
         dispatch(failure(error));
-      });
+      }
+    );
 
-
-
-  function alert_success(message) {
-    return {
-      type: alertTypes.SUCCESS,
-      message
+    function alert_success(message) {
+      return {
+        type: alertTypes.SUCCESS,
+        message,
+      };
     }
-  }
 
-  function alert_error(message) {
-    return {
-      type: alertTypes.ERROR,
-      message
+    function request(payload) {
+      return {
+        type: userTypes.UPDATE_USER_REQUEST,
+        payload,
+      };
     }
-  }
-      function request(payload) {
-        return {
-          type: userTypes.UPDATE_USER_REQUEST,
-          payload
-        }
-      }
-     
-      function updatecurentuser(user) {
-        return {
-          type: userTypes.LOGIN_SUCCESS,
-          user
-        }
-      }
-      function success(payload) {
-        return {
-          type: userTypes.UPDATE_USER_SUCCESS,
-          payload
-        }
-      }
-    
-      function failure(error) {
-        return {
-          type: userTypes.UPDATE_USER_FAILURE,
-          error
-        }
-      }
-}}
+
+    function updatecurentuser(user) {
+      return {
+        type: userTypes.LOGIN_SUCCESS,
+        user,
+      };
+    }
+    function success(payload) {
+      return {
+        type: userTypes.UPDATE_USER_SUCCESS,
+        payload,
+      };
+    }
+
+    function failure(error) {
+      return {
+        type: userTypes.UPDATE_USER_FAILURE,
+        error,
+      };
+    }
+  };
+}
 /*
 
 function getuserById(id) {
